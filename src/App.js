@@ -3,13 +3,20 @@ import logo from './logo.svg';
 import './App.css';
 import Card from './components/Card';
 
-const cardsPerRow = 8;
-
 class App extends Component {
   nCards(n) {
     const inputs = [];
     for(var i = 0; i < n; i++) {
       inputs.push(<Card key={i} />);
+    }
+    return inputs;
+  }
+
+  nByMCards(n, m) {
+    const inputs = [];
+    for(var i = 0; i < m; i++) {
+      inputs.push(this.nCards(n));
+      inputs.push(<div className='row-divider'></div>);
     }
     return inputs;
   }
@@ -24,9 +31,7 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        {this.nCards(cardsPerRow)}
-        <div className='row-divider'></div>
-        {this.nCards(cardsPerRow)}
+        {this.nByMCards(8,6)}
         
       </div>
     );

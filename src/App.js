@@ -16,7 +16,7 @@ class App extends Component {
     const inputs = [];
     for(var i = 0; i < m; i++) {
       inputs.push(this.nCards(n));
-      inputs.push(<div className='row-divider'></div>);
+      inputs.push(<div className='row-divider' key={i}></div>);
     }
     return inputs;
   }

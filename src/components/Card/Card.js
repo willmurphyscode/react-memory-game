@@ -1,11 +1,18 @@
 import React from 'react';
 
-const card = (props) => 
-    (
-        <div className='card back' id={props.cardIx}>
-            ?
-        </div>
-    )
+class Card extends React.Component {
+
+    render() {
+        return    (
+            <div className={'card ' + (this.props.faceUp ? 'front' : 'back')} id={this.props.cardIx}>
+                { this.props.faceUp ? 'A' : '?'}
+            </div>
+        )
+    }
+}
 
 
-export default card; 
+
+
+
+export default Card;

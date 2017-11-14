@@ -11,9 +11,10 @@ class Card extends React.Component {
     }
 
     render() {
+        //console.log(this.state);
         return    (
-            <div className={'card ' + (this.state.faceUp ? 'front' : 'back')} id={this.props.cardIx}>
-                { this.state.faceUp ? 'A' : '?'}
+            <div className={'card ' + (this.props.faceUp ? 'front' : 'back')} id={this.props.cardIx}>
+                { this.props.faceUp ? 'A' : '?'}
             </div>
         )
     }

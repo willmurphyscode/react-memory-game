@@ -45,6 +45,11 @@ div.card {
   content: "\003F";
 }
 
+.card.front {
+  font-size: 5vw;
+  content: "A";
+}
+
 div.row-divider {
   clear: both;
 }

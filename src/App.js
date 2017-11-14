@@ -23,10 +23,10 @@ class App extends Component {
     return inputs;
   }
 
-  nByMCards(n, m) {
+  nByMCards(columns, rows) {
     const inputs = [];
-    for(var i = 0; i < m; i++) {
-      inputs.push(this.nCards(n, i));
+    for(var i = 0; i < rows; i++) {
+      inputs.push(this.nCards(columns, (i * columns)));
       inputs.push(<div className='row-divider' key={i}></div>);
     }
     return inputs;
@@ -34,23 +34,17 @@ class App extends Component {
 
   flipCardByIx(ix) {
     const currentState = this.state.ixesOfFaceUpCards;
-    currentState[ix] = true;//!currentState[ix];
+    currentState[ix] = !currentState[ix];
     this.setState({
       ixesOfFaceUpCards: currentState
     });
-    //console.log(this.state.ixesOfFaceUpCards);
   }
 
   cardClicked(event) {
-    event.target.classList.remove('back');
-    event.target.classList.add('front');
-    console.log(event.target.classList);
-    // event.target.setState({ faceUp: true });
     this.flipCardByIx(event.target.id);
   }
 
   render() {
-    console.log('rendered!');
     return (
       <div className="App" onClick={this.cardClicked}>
         <header className="App-header">

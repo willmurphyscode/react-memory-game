@@ -40,7 +40,7 @@ div.card {
   float: left;
 }
 
-span.card.back {
+.card.back {
   font-size: 5vw;
   content: "\003F";
 }

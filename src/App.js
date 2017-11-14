@@ -4,10 +4,10 @@ import './App.css';
 import Card from './components/Card';
 
 class App extends Component {
-  nCards(n) {
+  nCards(n, offsetId) {
     const inputs = [];
     for(var i = 0; i < n; i++) {
-      inputs.push(<Card key={i} />);
+      inputs.push(<Card key={i + offsetId} cardIx={i + offsetId}/>);
     }
     return inputs;
   }
@@ -15,15 +15,19 @@ class App extends Component {
   nByMCards(n, m) {
     const inputs = [];
     for(var i = 0; i < m; i++) {
-      inputs.push(this.nCards(n));
+      inputs.push(this.nCards(n, i));
       inputs.push(<div className='row-divider' key={i}></div>);
     }
     return inputs;
   }
 
+  cardClicked(event) {
+    console.log(event.target);
+  }
+
   render() {
     return (
-      <div className="App">
+      <div className="App" onClick={this.cardClicked}>
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>

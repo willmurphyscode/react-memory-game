@@ -2,8 +2,8 @@ import React from 'react';
 
 const card = (props) => 
     (
-        <div className='card back'>
-            <span className='card back' >?</span>
+        <div className='card back' id={props.cardIx}>
+            ?
         </div>
     )
 

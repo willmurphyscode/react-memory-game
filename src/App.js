@@ -3,14 +3,45 @@ import logo from './logo.svg';
 import './App.css';
 import Card from './components/Card';
 
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+const makeShuffledDeck = (length) => {
+  const firstHalf = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-+'
+    .split('').slice(0, length / 2);
+
+  const secondHalf = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-+'
+    .split('').slice(0, length / 2);
+
+  return shuffleArray(firstHalf.concat(secondHalf));
+}
+
+const makeDeck = (length) => {
+  const deck = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-+'
+    .split('').slice(0, length / 2); // 48 unique characters
+  const otherDeck = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-+'
+    .split('').slice(0, length / 2);
+  return deck.concat(otherDeck);
+}
+
+
+
 class App extends Component {
   constructor(props) {
     super(props);
     const length = props.rows * props.columns;
-    this.state = {
-      ixesOfFaceUpCards: Array(length).fill(false)
-    }
+
     this.cardClicked = this.cardClicked.bind(this);
+
+    this.state = {
+      ixesOfFaceUpCards: Array(length).fill(false),
+      deck: makeShuffledDeck(length)
+    }
   }
 
   nCards(n, offsetId) {
@@ -18,7 +49,13 @@ class App extends Component {
     for(var i = 0; i < n; i++) {
       var ix = i + offsetId;
       var faceUp = this.state.ixesOfFaceUpCards[ix];
-      inputs.push(<Card key={ix} cardIx={ix} state={{faceUp: faceUp}} faceUp={faceUp}/>);
+      var face = this.state.deck[ix];
+      inputs.push(<Card 
+          key={ix} 
+          cardIx={ix} 
+          faceUp={faceUp}
+          face={face}
+           />);
     }
     return inputs;
   }

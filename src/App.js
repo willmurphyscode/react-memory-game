@@ -21,15 +21,6 @@ const makeShuffledDeck = (length) => {
   return shuffleArray(firstHalf.concat(secondHalf));
 }
 
-const makeDeck = (length) => {
-  const deck = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-+'
-    .split('').slice(0, length / 2); // 48 unique characters
-  const otherDeck = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-+'
-    .split('').slice(0, length / 2);
-  return deck.concat(otherDeck);
-}
-
-
 
 class App extends Component {
   constructor(props) {

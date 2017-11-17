@@ -70,8 +70,16 @@ class App extends Component {
     });
   }
 
-  countFaceUpCards() {
-    return this.state.ixesOfFaceUpCards.filter(x => x).length;
+  countUnMatchedFaceUpCards() {
+    return this.state.ixesOfFaceUpCards.filter((x, ix) => x && !this.state.ixesOfMatchedCards[ix]).length;
+  }
+
+  otherIndexOfCard(face, knownIndex) {
+    let indexes = [], i = -1;
+    while ((i = this.state.deck.indexOf(face, i+1)) != -1){
+        indexes.push(i);
+    }
+    return indexes.filter((ix) => ix !== knownIndex)[0];
   }
 
   checkMatch() {
@@ -79,11 +87,14 @@ class App extends Component {
     let matchedIxes = this.state.ixesOfMatchedCards;
     for(var i = 0; i < this.state.ixesOfFaceUpCards.length; i++) {
       if(this.state.ixesOfFaceUpCards[i]) {
+        let currentCard = this.state.deck[i];
         if(faceUpFaces.indexOf(this.state.deck[i]) >= 0) {
           matchedIxes[i] = true;
+          matchedIxes[this.otherIndexOfCard(currentCard, i)] = true;
+          console.log(this.otherIndexOfCard(currentCard, i));
           console.log("FOUND A MATCH :)")
         }
-        faceUpFaces.push(this.state.deck[i]);
+        faceUpFaces.push(currentCard);
       }
     }
     console.log(faceUpFaces);
@@ -104,7 +115,7 @@ class App extends Component {
   }
 
   cardClicked(event) {
-    const faceUpCount = this.countFaceUpCards();
+    const faceUpCount = this.countUnMatchedFaceUpCards();
     if (faceUpCount == 0) {
       this.flipCardByIx(event.target.id);
       return;

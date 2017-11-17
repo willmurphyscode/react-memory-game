@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Card from './components/Card';
+import { setTimeout } from 'core-js/library/web/timers';
 
 const shuffleArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -31,7 +32,8 @@ class App extends Component {
 
     this.state = {
       ixesOfFaceUpCards: Array(length).fill(false),
-      deck: makeShuffledDeck(length)
+      ixesOfMatchedCards: Array(length).fill(false),
+      deck: makeShuffledDeck(length),
     }
   }
 
@@ -68,8 +70,37 @@ class App extends Component {
     });
   }
 
+  countFaceUpCards() {
+    return this.state.ixesOfFaceUpCards.filter(x => x).length;
+  }
+
+  checkMatch() {
+    console.log("checked match");
+    setTimeout(() => {
+      for(var i = 0; i < this.state.ixesOfFaceUpCards.length; i++) {
+        if(!this.state.ixesOfMatchedCards[i] && this.state.ixesOfFaceUpCards[i]) {
+          this.flipCardByIx(i);
+        }
+      }
+    }, 1500);
+  }
+
+  resetBoard() {
+    console.log("resetting board");
+  }
+
   cardClicked(event) {
-    this.flipCardByIx(event.target.id);
+    const faceUpCount = this.countFaceUpCards();
+    if (faceUpCount == 0) {
+      this.flipCardByIx(event.target.id);
+      return;
+    } else if (faceUpCount == 1) {
+      this.flipCardByIx(event.target.id);
+      this.checkMatch();
+    } else {
+      this.resetBoard();
+    }
+
   }
 
   render() {

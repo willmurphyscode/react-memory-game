@@ -75,7 +75,21 @@ class App extends Component {
   }
 
   checkMatch() {
-    console.log("checked match");
+    let faceUpFaces = [];
+    let matchedIxes = this.state.ixesOfMatchedCards;
+    for(var i = 0; i < this.state.ixesOfFaceUpCards.length; i++) {
+      if(this.state.ixesOfFaceUpCards[i]) {
+        if(faceUpFaces.indexOf(this.state.deck[i]) >= 0) {
+          matchedIxes[i] = true;
+          console.log("FOUND A MATCH :)")
+        }
+        faceUpFaces.push(this.state.deck[i]);
+      }
+    }
+    console.log(faceUpFaces);
+
+    let ixesToFlipOver = [];
+    // TODO don't use flip card by ix because of redundant setState calls
     setTimeout(() => {
       for(var i = 0; i < this.state.ixesOfFaceUpCards.length; i++) {
         if(!this.state.ixesOfMatchedCards[i] && this.state.ixesOfFaceUpCards[i]) {

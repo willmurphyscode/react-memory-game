@@ -7,7 +7,6 @@ import { shallow } from 'enzyme';
 
 describe('card', () => {
     beforeAll(() => {
-       // console.warn('foo');
         Enzyme.configure({ adapter: new Adapter() })
     })
     it('renders', () => {

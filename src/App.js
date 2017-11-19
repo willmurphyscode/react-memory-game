@@ -63,7 +63,7 @@ class App extends Component {
   }
 
   flipCardByIx(ix) {
-    const currentState = this.state.ixesOfFaceUpCards;
+    const currentState = [...this.state.ixesOfFaceUpCards];
     currentState[ix] = !currentState[ix];
     this.setState({
       ixesOfFaceUpCards: currentState

@@ -124,7 +124,6 @@ class App extends Component {
       return;
     } else if (faceUpCount === 1) {
       this.flipCardByIx(event.target.id, () => this.checkMatch());
-      // setTimeout(() => this.checkMatch(), 50);
     } else {
       this.resetBoard();
     }

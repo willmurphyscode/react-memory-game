@@ -1,9 +1,9 @@
 import Card from './Card';
 import * as React from 'react';
-const Enzyme = require('enzyme');
 import Adapter from 'enzyme-adapter-react-16';
 import { shallow } from 'enzyme';
 
+const Enzyme = require('enzyme');
 
 describe('card', () => {
     beforeAll(() => {

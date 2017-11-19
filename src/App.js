@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Card from './components/Card';
+import CardModel from './models/CardModel';
 import { setTimeout } from 'core-js/library/web/timers';
 
 const shuffleArray = (array) => {
@@ -22,7 +23,6 @@ const makeShuffledDeck = (length) => {
   return shuffleArray(firstHalf.concat(secondHalf));
 }
 
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -34,6 +34,7 @@ class App extends Component {
       ixesOfFaceUpCards: Array(length).fill(false),
       ixesOfMatchedCards: Array(length).fill(false),
       deck: makeShuffledDeck(length),
+      newDeck: CardModel.deckFromArrayOfFaces(makeShuffledDeck(length)),
     }
   }
 
@@ -42,12 +43,13 @@ class App extends Component {
     for(var i = 0; i < n; i++) {
       var ix = i + offsetId;
       var faceUp = this.state.ixesOfFaceUpCards[ix];
-      var face = this.state.deck[ix];
+      var value = this.state.deck[ix];
+     // var { faceUp, value } = this.state.newDeck[ix];
       inputs.push(<Card 
           key={ix} 
           cardIx={ix} 
-          faceUp={faceUp}
-          face={face}
+          faceUp={ faceUp }
+          face={ value }
            />);
     }
     return inputs;
@@ -64,9 +66,12 @@ class App extends Component {
 
   flipCardByIx(ix, callBack) {
     const currentState = [...this.state.ixesOfFaceUpCards];
+    const currentDeck = [...this.state.newDeck];
+    currentDeck[ix].flip();
     currentState[ix] = !currentState[ix];
     this.setState({
-      ixesOfFaceUpCards: currentState
+      ixesOfFaceUpCards: currentState,
+      newDeck: currentDeck,
     }, callBack);
   }
 
@@ -101,19 +106,23 @@ class App extends Component {
     console.log(matchedIxes);
     const newIxesOfFaceUpCards = [...this.state.ixesOfFaceUpCards];
     setTimeout(() => {
-      for(var i = 0; i < this.state.ixesOfFaceUpCards.length; i++) {
-        if(!matchedIxes[i] && this.state.ixesOfFaceUpCards[i]) {
-          newIxesOfFaceUpCards[i] = false;
-        }
-      }
-      this.setState({
-        ixesOfMatchedCards: matchedIxes,
-        ixesOfFaceUpCards: newIxesOfFaceUpCards,
-      })
+      this.resetBoard(newIxesOfFaceUpCards, matchedIxes);
     }, 1500);
   }
 
-  resetBoard() {
+  resetBoard(newIxesOfFaceUpCards, matchedIxes) {
+    const newCards = [...this.state.newDeck];
+    for(var i = 0; i < this.state.ixesOfFaceUpCards.length; i++) {
+      if(!matchedIxes[i] && this.state.ixesOfFaceUpCards[i]) {
+        newIxesOfFaceUpCards[i] = false;
+        newCards[i].flipDown();
+      }
+    }
+    this.setState({
+      ixesOfMatchedCards: matchedIxes,
+      ixesOfFaceUpCards: newIxesOfFaceUpCards,
+      newDeck: newCards,
+    })
     console.log("resetting board");
   }
 

@@ -76,7 +76,7 @@ class App extends Component {
 
   otherIndexOfCard(face, knownIndex) {
     let indexes = [], i = -1;
-    while ((i = this.state.deck.indexOf(face, i+1)) != -1){
+    while ((i = this.state.deck.indexOf(face, i+1)) !== -1){ // eslint-disable-line no-cond-assign
         indexes.push(i);
     }
     return indexes.filter((ix) => ix !== knownIndex)[0];
@@ -118,10 +118,10 @@ class App extends Component {
 
   cardClicked(event) {
     const faceUpCount = this.countUnMatchedFaceUpCards();
-    if (faceUpCount == 0) {
+    if (faceUpCount === 0) {
       this.flipCardByIx(event.target.id);
       return;
-    } else if (faceUpCount == 1) {
+    } else if (faceUpCount === 1) {
       this.flipCardByIx(event.target.id);
       this.checkMatch();
     } else {

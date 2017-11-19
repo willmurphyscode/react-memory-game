@@ -13,3 +13,10 @@ it('flips face up', () => {
 });
 
 
+it('should make a deck from an array of strings', () => {
+    const faceValues = ['a','b','c'];
+    const resultingDeck = CardModel.deckFromArrayOfFaces(faceValues);
+    expect(resultingDeck).toHaveLength(3);
+    expect(resultingDeck[0].value).toBe('a');
+    expect(resultingDeck[1].faceUp).toBe(false);
+});

@@ -97,13 +97,10 @@ class App extends Component {
           console.log("found a match :)")
           matchedIxes[i] = true;
           matchedIxes[this.otherIndexOfCard(currentCard, i)] = true;
-          console.log(this.otherIndexOfCard(currentCard, i));
         }
         faceUpFaces.push(currentCard);
       }
     }
-    console.log(faceUpFaces);
-    console.log(matchedIxes);
     const newIxesOfFaceUpCards = [...this.state.ixesOfFaceUpCards];
     setTimeout(() => {
       this.resetBoard(newIxesOfFaceUpCards, matchedIxes);

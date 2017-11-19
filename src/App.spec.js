@@ -5,7 +5,7 @@ import Card from './components/Card';
 
 const Enzyme = require('enzyme');
 import Adapter from 'enzyme-adapter-react-16';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 
 describe('The set of cards', () => {
   beforeAll(() => {
@@ -25,11 +25,11 @@ describe('The set of cards', () => {
   
   
   it('flips cards when you click them', () => {
-    const wrapper = shallow(<App rows={6} columns={8}/>);
+    spyOn(App.prototype, 'flipCardByIx');
+    const wrapper = mount(<App rows={6} columns={8}/>);
     const firstCard = wrapper.find(Card).first();
-    firstCard.simulate('click');
-    wrapper.update();
-    expect(wrapper.find(Card).first().props().faceUp).toBe(true);
+    wrapper.simulate('click', { target: { id: 0 }});
+    expect(App.prototype.flipCardByIx).toHaveBeenCalled();
   });
 });
 

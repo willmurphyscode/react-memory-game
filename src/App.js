@@ -92,25 +92,23 @@ class App extends Component {
           matchedIxes[i] = true;
           matchedIxes[this.otherIndexOfCard(currentCard, i)] = true;
           console.log(this.otherIndexOfCard(currentCard, i));
-          console.log("FOUND A MATCH :)")
         }
         faceUpFaces.push(currentCard);
       }
     }
     console.log(faceUpFaces);
 
-    this.setState({
-      ixesOfMatchedCards: matchedIxes
-    })
-
-    let ixesToFlipOver = [];
-    // TODO don't use flip card by ix because of redundant setState calls
+    const newIxesOfFaceUpCards = [...this.state.ixesOfFaceUpCards];
     setTimeout(() => {
       for(var i = 0; i < this.state.ixesOfFaceUpCards.length; i++) {
-        if(!this.state.ixesOfMatchedCards[i] && this.state.ixesOfFaceUpCards[i]) {
-          this.flipCardByIx(i);
+        if(!matchedIxes[i] && this.state.ixesOfFaceUpCards[i]) {
+          newIxesOfFaceUpCards[i] = false;
         }
       }
+      this.setState({
+        ixesOfMatchedCards: matchedIxes,
+        ixesOfFaceUpCards: newIxesOfFaceUpCards,
+      })
     }, 1500);
   }
 

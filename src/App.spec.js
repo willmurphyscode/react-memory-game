@@ -42,4 +42,23 @@ describe('The set of cards', () => {
   
 });
 
+describe('checkMatch', () => {
+  it('should be called if two cards have been clicked', () => {
+    spyOn(App.prototype, 'checkMatch');
+    const wrapper = shallow(<App rows={1} columns={2}/>);
+    wrapper.simulate('click', { target: { id: 0 }});
+    wrapper.simulate('click', { target: { id: 1 }});
+    expect(App.prototype.checkMatch).toHaveBeenCalled();
+  });
 
+  
+  it('should call resetBoard', () => {
+    const wrapper = mount(<App rows={1} columns={2}/>);
+    jest.useFakeTimers();
+    spyOn(App.prototype, 'resetBoard');
+    wrapper.instance().checkMatch();
+    jest.runAllTimers();
+    expect(App.prototype.resetBoard).toHaveBeenCalled();
+  });
+  
+});

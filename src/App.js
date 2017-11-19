@@ -62,12 +62,12 @@ class App extends Component {
     return inputs;
   }
 
-  flipCardByIx(ix) {
+  flipCardByIx(ix, callBack) {
     const currentState = [...this.state.ixesOfFaceUpCards];
     currentState[ix] = !currentState[ix];
     this.setState({
       ixesOfFaceUpCards: currentState
-    });
+    }, callBack);
   }
 
   countUnMatchedFaceUpCards() {
@@ -89,6 +89,7 @@ class App extends Component {
       if(this.state.ixesOfFaceUpCards[i]) {
         let currentCard = this.state.deck[i];
         if(faceUpFaces.indexOf(this.state.deck[i]) >= 0) {
+          console.log("found a match :)")
           matchedIxes[i] = true;
           matchedIxes[this.otherIndexOfCard(currentCard, i)] = true;
           console.log(this.otherIndexOfCard(currentCard, i));
@@ -97,7 +98,7 @@ class App extends Component {
       }
     }
     console.log(faceUpFaces);
-
+    console.log(matchedIxes);
     const newIxesOfFaceUpCards = [...this.state.ixesOfFaceUpCards];
     setTimeout(() => {
       for(var i = 0; i < this.state.ixesOfFaceUpCards.length; i++) {
@@ -122,8 +123,8 @@ class App extends Component {
       this.flipCardByIx(event.target.id);
       return;
     } else if (faceUpCount === 1) {
-      this.flipCardByIx(event.target.id);
-      this.checkMatch();
+      this.flipCardByIx(event.target.id, () => this.checkMatch());
+      // setTimeout(() => this.checkMatch(), 50);
     } else {
       this.resetBoard();
     }

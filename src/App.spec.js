@@ -26,11 +26,20 @@ describe('The set of cards', () => {
   
   it('flips cards when you click them', () => {
     spyOn(App.prototype, 'flipCardByIx');
-    const wrapper = mount(<App rows={6} columns={8}/>);
+    const wrapper = shallow(<App rows={6} columns={8}/>);
     const firstCard = wrapper.find(Card).first();
     wrapper.simulate('click', { target: { id: 0 }});
     expect(App.prototype.flipCardByIx).toHaveBeenCalled();
   });
+
+  //reimplement the above test without knowing function names
+  it('makes a face up card when you click one', () => {
+    const wrapper = mount(<App rows={6} columns={8}/>);
+    const firstCard = wrapper.find(Card).first();
+    wrapper.simulate('click', { target: { id: 0 }});
+    expect(wrapper.find('div.card.front')).toHaveLength(1);
+  });
+  
 });
 
 

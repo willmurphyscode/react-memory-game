@@ -43,6 +43,11 @@ describe('The set of cards', () => {
 });
 
 describe('checkMatch', () => {
+
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
   it('should be called if two cards have been clicked', () => {
     spyOn(App.prototype, 'checkMatch');
     const wrapper = shallow(<App rows={1} columns={2}/>);
@@ -51,13 +56,10 @@ describe('checkMatch', () => {
     expect(App.prototype.checkMatch).toHaveBeenCalled();
   });
 
-  
   it('should call resetBoard', () => {
     const wrapper = mount(<App rows={1} columns={2}/>);
-    jest.useFakeTimers();
     spyOn(App.prototype, 'resetBoard');
-    wrapper.instance().checkMatch();
-    jest.runAllTimers();
+    wrapper.instance().checkMatch(0);
     expect(App.prototype.resetBoard).toHaveBeenCalled();
   });
   

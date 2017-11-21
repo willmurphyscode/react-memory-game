@@ -44,7 +44,7 @@ class App extends Component {
       var ix = i + offsetId;
       var faceUp = this.state.ixesOfFaceUpCards[ix];
       var value = this.state.deck[ix];
-     // var { faceUp, value } = this.state.newDeck[ix];
+      // var { faceUp, value } = this.state.newDeck[ix];
       inputs.push(<Card 
           key={ix} 
           cardIx={ix} 
@@ -90,36 +90,41 @@ class App extends Component {
   checkMatch() {
     let faceUpFaces = [];
     let matchedIxes = [...this.state.ixesOfMatchedCards];
+    let newDeck = [...this.state.newDeck];
     for(var i = 0; i < this.state.ixesOfFaceUpCards.length; i++) {
       if(this.state.ixesOfFaceUpCards[i]) {
         let currentCard = this.state.deck[i];
         if(faceUpFaces.indexOf(this.state.deck[i]) >= 0) {
           console.log("found a match :)")
+          newDeck.markedMatched();
+          newDeck[this.otherIndexOfCard(currentCard, i)].markedMatched();
           matchedIxes[i] = true;
           matchedIxes[this.otherIndexOfCard(currentCard, i)] = true;
         }
         faceUpFaces.push(currentCard);
       }
     }
+
     const newIxesOfFaceUpCards = [...this.state.ixesOfFaceUpCards];
-    setTimeout(() => {
-      this.resetBoard(newIxesOfFaceUpCards, matchedIxes);
-    }, 1500);
+    this.resetBoard(newIxesOfFaceUpCards, matchedIxes, newDeck);
+    
   }
 
-  resetBoard(newIxesOfFaceUpCards, matchedIxes) {
-    const newCards = [...this.state.newDeck];
-    for(var i = 0; i < this.state.ixesOfFaceUpCards.length; i++) {
-      if(!matchedIxes[i] && this.state.ixesOfFaceUpCards[i]) {
-        newIxesOfFaceUpCards[i] = false;
-        newCards[i].flipDown();
+  resetBoard(newIxesOfFaceUpCards, matchedIxes, newCards, timeoutInterval = 1500) {
+    setTimeout(() => {
+      for(var i = 0; i < this.state.ixesOfFaceUpCards.length; i++) {
+        if(!matchedIxes[i] && this.state.ixesOfFaceUpCards[i]) {
+          newIxesOfFaceUpCards[i] = false;
+          newCards[i].flipDown();
+        }
       }
-    }
-    this.setState({
-      ixesOfMatchedCards: matchedIxes,
-      ixesOfFaceUpCards: newIxesOfFaceUpCards,
-      newDeck: newCards,
-    })
+      this.setState({
+        ixesOfMatchedCards: matchedIxes,
+        ixesOfFaceUpCards: newIxesOfFaceUpCards,
+        newDeck: newCards,
+      })
+    }, timeoutInterval);
+
     console.log("resetting board");
   }
 

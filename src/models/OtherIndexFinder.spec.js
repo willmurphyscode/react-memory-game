@@ -6,7 +6,8 @@ describe('finding another index', () => {
         let args = {
             collection: [ {a: 1}, {a: 2}, {a: 3}],
             value: 2,
-            propName: 'a'
+            propName: 'a',
+            knownIndex: 1
         };
 
         expect(findOtherIndex(args)).toBe(-1);
@@ -14,7 +15,13 @@ describe('finding another index', () => {
 
     
     it('should should return the other index if one exists', () => {
-        expect(true).toBe(false);
+        let args = {
+            collection: [ {a: 1}, {a: 2}, {a: 1}],
+            value: 1,
+            propName: 'a',
+            knownIndex: 0
+        };
+        expect(findOtherIndex(args)).toBe(2);
     });
     
     

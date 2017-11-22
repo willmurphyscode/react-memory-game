@@ -7,6 +7,10 @@
   height: 80px;
 }
 
+body {
+  background-color: #F8ECC2;
+}
+
 .App-header {
   background-color: #222;
   height: 150px;
@@ -36,18 +40,21 @@ div.card {
   margin-right: .25vw;
   display: block;
   border-radius: 15px;
-  background-color: green;
+  background-color: #3E2723;
   float: left;
+  color: #FF8A65;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 
 .card.back {
   font-size: 5vw;
   content: "\003F";
+  text-align: center;
 }
 
 .card.front {
   font-size: 5vw;
-  content: "A";
+  text-align: center;
 }
 
 div.row-divider {
@@ -59,3 +66,4 @@ div.gameContainer {
   margin-left: auto;
   margin-right: auto;
 }
+

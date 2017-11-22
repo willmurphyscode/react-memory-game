@@ -4,6 +4,8 @@ import './App.css';
 import Card from './components/Card';
 import CardModel from './models/CardModel';
 import { setTimeout } from 'core-js/library/web/timers';
+import findOtherIndex from './models/OtherIndexFinder';
+import resetDeck from './models/DeckResetter';
 
 const shuffleArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -22,6 +24,8 @@ const makeShuffledDeck = (length) => {
 
   return shuffleArray(firstHalf.concat(secondHalf));
 }
+
+
 
 class App extends Component {
   constructor(props) {
@@ -42,9 +46,7 @@ class App extends Component {
     const inputs = [];
     for(var i = 0; i < n; i++) {
       var ix = i + offsetId;
-      var faceUp = this.state.ixesOfFaceUpCards[ix];
-      var value = this.state.deck[ix];
-      // var { faceUp, value } = this.state.newDeck[ix];
+      var { faceUp, value } = this.state.newDeck[ix];
       inputs.push(<Card 
           key={ix} 
           cardIx={ix} 
@@ -65,26 +67,24 @@ class App extends Component {
   }
 
   flipCardByIx(ix, callBack) {
-    const currentState = [...this.state.ixesOfFaceUpCards];
     const currentDeck = [...this.state.newDeck];
-    currentDeck[ix].flip();
-    currentState[ix] = !currentState[ix];
+    currentDeck[ix] && currentDeck[ix].flip();
     this.setState({
-      ixesOfFaceUpCards: currentState,
       newDeck: currentDeck,
     }, callBack);
   }
 
   countUnMatchedFaceUpCards() {
-    return this.state.ixesOfFaceUpCards.filter((x, ix) => x && !this.state.ixesOfMatchedCards[ix]).length;
+    return this.state.newDeck.filter((x) => x.faceUp && !x.matched).length;
   }
 
-  otherIndexOfCard(face, knownIndex) {
-    let indexes = [], i = -1;
-    while ((i = this.state.deck.indexOf(face, i+1)) !== -1){ // eslint-disable-line no-cond-assign
-        indexes.push(i);
-    }
-    return indexes.filter((ix) => ix !== knownIndex)[0];
+  otherIndexOfCard(card, knownIndex) {
+    return findOtherIndex({
+      collection: this.state.newDeck,
+      value: card.value,
+      propName: 'value',
+      knownIndex: knownIndex
+    });
   }
 
   checkMatch() {
@@ -92,16 +92,16 @@ class App extends Component {
     let matchedIxes = [...this.state.ixesOfMatchedCards];
     let newDeck = [...this.state.newDeck];
     for(var i = 0; i < this.state.ixesOfFaceUpCards.length; i++) {
-      if(this.state.ixesOfFaceUpCards[i]) {
-        let currentCard = this.state.deck[i];
-        if(faceUpFaces.indexOf(this.state.deck[i]) >= 0) {
+      if(newDeck[i].faceUp) {
+        let currentCard = newDeck[i];
+        if(faceUpFaces.indexOf(currentCard.value) >= 0) {
           console.log("found a match :)")
-          newDeck.markedMatched();
-          newDeck[this.otherIndexOfCard(currentCard, i)].markedMatched();
+          newDeck[i].markMatched();
+          newDeck[this.otherIndexOfCard(currentCard, i)].markMatched();
           matchedIxes[i] = true;
           matchedIxes[this.otherIndexOfCard(currentCard, i)] = true;
         }
-        faceUpFaces.push(currentCard);
+        faceUpFaces.push(currentCard.value);
       }
     }
 
@@ -110,18 +110,13 @@ class App extends Component {
     
   }
 
-  resetBoard(newIxesOfFaceUpCards, matchedIxes, newCards, timeoutInterval = 1500) {
+  resetBoard(newIxesOfFaceUpCards, matchedIxes, newDeck, timeoutInterval = 1500) {
     setTimeout(() => {
-      for(var i = 0; i < this.state.ixesOfFaceUpCards.length; i++) {
-        if(!matchedIxes[i] && this.state.ixesOfFaceUpCards[i]) {
-          newIxesOfFaceUpCards[i] = false;
-          newCards[i].flipDown();
-        }
-      }
+      newDeck = resetDeck(newDeck);
       this.setState({
         ixesOfMatchedCards: matchedIxes,
         ixesOfFaceUpCards: newIxesOfFaceUpCards,
-        newDeck: newCards,
+        newDeck: newDeck,
       })
     }, timeoutInterval);
 

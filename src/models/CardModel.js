@@ -2,6 +2,7 @@ class CardModel {
     constructor({ faceUp, value }) {
         this.faceUp = faceUp;
         this.value = value;
+        this.matched = false;
     }
 
     flipUp() {
@@ -10,6 +11,14 @@ class CardModel {
 
     flipDown() {
         this.faceUp = false;
+    }
+
+    flip() {
+        this.faceUp = !this.faceUp;
+    }
+
+    markMatched() {
+        this.matched = true;
     }
 
     static deckFromArrayOfFaces(arrayOfFaces) {

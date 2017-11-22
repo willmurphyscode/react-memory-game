@@ -36,6 +36,7 @@ class App extends Component {
 
     this.state = {
       newDeck: CardModel.deckFromArrayOfFaces(makeShuffledDeck(length)),
+      isResetting: false,
     }
   }
 
@@ -102,10 +103,17 @@ class App extends Component {
   }
 
   resetBoard(newDeck, timeoutInterval = 1500) {
+    if(this.state.isResetting) {
+      return;
+    }
+    this.setState({
+      isResetting: true,
+    })
     setTimeout(() => {
       newDeck = resetDeck(newDeck);
       this.setState({
         newDeck: newDeck,
+        isResetting: false,
       })
     }, timeoutInterval);
 

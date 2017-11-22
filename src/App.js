@@ -35,9 +35,6 @@ class App extends Component {
     this.cardClicked = this.cardClicked.bind(this);
 
     this.state = {
-      ixesOfFaceUpCards: Array(length).fill(false),
-      ixesOfMatchedCards: Array(length).fill(false),
-      deck: makeShuffledDeck(length),
       newDeck: CardModel.deckFromArrayOfFaces(makeShuffledDeck(length)),
     }
   }
@@ -89,33 +86,25 @@ class App extends Component {
 
   checkMatch() {
     let faceUpFaces = [];
-    let matchedIxes = [...this.state.ixesOfMatchedCards];
     let newDeck = [...this.state.newDeck];
-    for(var i = 0; i < this.state.ixesOfFaceUpCards.length; i++) {
+    for(var i = 0; i < newDeck.length; i++) {
       if(newDeck[i].faceUp) {
         let currentCard = newDeck[i];
         if(faceUpFaces.indexOf(currentCard.value) >= 0) {
           console.log("found a match :)")
           newDeck[i].markMatched();
           newDeck[this.otherIndexOfCard(currentCard, i)].markMatched();
-          matchedIxes[i] = true;
-          matchedIxes[this.otherIndexOfCard(currentCard, i)] = true;
         }
         faceUpFaces.push(currentCard.value);
       }
     }
-
-    const newIxesOfFaceUpCards = [...this.state.ixesOfFaceUpCards];
-    this.resetBoard(newIxesOfFaceUpCards, matchedIxes, newDeck);
-    
+    this.resetBoard(newDeck);
   }
 
-  resetBoard(newIxesOfFaceUpCards, matchedIxes, newDeck, timeoutInterval = 1500) {
+  resetBoard(newDeck, timeoutInterval = 1500) {
     setTimeout(() => {
       newDeck = resetDeck(newDeck);
       this.setState({
-        ixesOfMatchedCards: matchedIxes,
-        ixesOfFaceUpCards: newIxesOfFaceUpCards,
         newDeck: newDeck,
       })
     }, timeoutInterval);

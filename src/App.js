@@ -73,7 +73,6 @@ class App extends Component {
       if(newDeck[i].faceUp) {
         let currentCard = newDeck[i];
         if(faceUpFaces.indexOf(currentCard.value) >= 0) {
-          console.log("found a match :)")
           newDeck[i].markMatched();
           newDeck[this.otherIndexOfCard(currentCard, i)].markMatched();
         }
@@ -97,8 +96,6 @@ class App extends Component {
         isResetting: false,
       })
     }, timeoutInterval);
-
-    console.log("resetting board");
   }
 
   cardClicked(event) {

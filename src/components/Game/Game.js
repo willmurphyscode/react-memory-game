@@ -111,7 +111,7 @@ class Game extends Component {
   render() {
     return (
         <div className='gameContainer' onClick={this.cardClicked}>
-            {this.nByMCards(this.props.columns,this.props.rows)}
+            {this.nByMCards(this.props.columns, this.props.rows)}
         </div>
     );
   }

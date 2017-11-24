@@ -11,6 +11,18 @@ import resetDeck from './models/DeckResetter';
 import makeShuffledDeck from './models/ShuffledArrayMaker';
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      totalClicks: 0,
+    };
+  }
+
+  trackClick() {
+    this.setState({
+      totalClicks: this.state.totalClicks + 1,
+    })
+  }
 
   render() {
     return (
@@ -19,8 +31,8 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">A Simple Memory Game in ReactJS</h1>
         </header>
-        <Game rows={6} columns={8} />
-        <Scoreboard />
+        <Scoreboard totalClicks={this.state.totalClicks} ref="scoreboard" />
+        <Game rows={6} columns={6} trackClick={this.trackClick.bind(this)} />
       </div>
     );
   }

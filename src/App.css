@@ -31,6 +31,36 @@ body {
   to { transform: rotate(360deg); }
 }
 
+div.scoreboard {
+  position:absolute;
+  top: 17vw; bottom: 0; left: 7vw;
+  width: 15vw;
+  color: red;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+
+div.inner-scoreboard {
+  background-color: #3E2723;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  border-radius: 15px;
+  padding: 1vw 1vw 1vw 1vw;
+  color: #FF8A65;
+}
+
+div.scoreboard-item {
+  color: #FF8A65;
+  font-weight: bold;
+  margin-top: .25vw;
+  margin-bottom: .25vw;
+  margin-left: .25vw;
+  margin-right: .25vw;
+}
+
+span.scoreboard-title {
+  text-decoration: underline;
+}
+
 div.card {
   width: 5.75vw;
   height: 5.75vw;

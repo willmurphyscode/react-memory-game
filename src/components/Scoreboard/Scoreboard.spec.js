@@ -13,8 +13,8 @@ describe('scoreboard', () => {
       });
     
     it('should render without crashing', () => {
-        const wrapper = shallow(<Scoreboard />);
-        expect(wrapper.find('div')).toHaveLength(1);
+        const wrapper = shallow(<Scoreboard totalClicks={1} />);
+        expect(wrapper.find('div.scoreboard')).toHaveLength(1);
     });
     
 })

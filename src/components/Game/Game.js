@@ -97,6 +97,7 @@ class Game extends Component {
   }
 
   cardClicked(event) {
+    this.props.trackClick && this.props.trackClick();
     const faceUpCount = this.countUnMatchedFaceUpCards();
     if (faceUpCount === 0) {
       this.flipCardByIx(event.target.id);

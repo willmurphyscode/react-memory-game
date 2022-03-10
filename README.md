@@ -1,3 +1,6 @@
+This is a deprecated prototype. It has security vulnerabilities and hasn't been looked
+at in years. Thanks for stopping by.
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
